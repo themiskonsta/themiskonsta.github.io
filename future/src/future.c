@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    if (x=0)
+    if (x==0)
     {
         printf("Window too small!\n");
         return 1;
