@@ -16,14 +16,12 @@ double sma(double *array,double y,double x)
 
 int main(int argc, char *argv[])
 {   
-    char *values = argv[1];
     double x = (argc>3) ? atof(argv[3]): 50;
     double *array;
     double count=0;
     int i=0;
     double a;
-    double result=1;
-
+    
     if (argc<2)
     {
         printf("Usage: ./future <filename> [--window N (default: 50)]\n");
@@ -35,42 +33,45 @@ int main(int argc, char *argv[])
         printf("Window too small!\n");
         return 1;
     }
-
-    for (int i=0; i<18; i++)
-    {
-        result*=10;
-    }
     
-    if(x==result)
+    FILE *numbers = fopen(argv[1], "r");
+
+    if (!numbers) 
     {
-        printf("Failed to allocate window memory\n");
+        fprintf(stderr, "Error opening file\n");
         return 1;
     }
-    
-    FILE *numbers = fopen("values.txt", "r");
+
     while (fscanf(numbers,"%lf", &a)==1)
     {
         count++;
     }
 
     rewind(numbers);
-    array = (double*)malloc(count*sizeof(double));
-    while (fscanf(numbers,"%lf", &array[i])==1)
-    {
-        i++;
-    }
-    fclose(numbers);
-
+    
     if (count<x)
     {
         printf("Window too large!\n");
         return 1;
     }
 
-    if (strcmp(values, "values.txt")==0)
+    array = (double*)malloc(count*sizeof(double));
+    
+    if (!array) 
     {
-        printf("%lf\n",sma(array,count,x));
-        free(array);
-        return 0;
+        printf("Memory allocation failed!\n");
+        fclose(numbers);
+        return 1;
     }
+
+    while (fscanf(numbers,"%lf", &array[i])==1)
+    {
+        i++;
+    }
+    fclose(numbers);
+
+    printf("%lf\n",sma(array,count,x));
+
+    free(array);
+    return 0;
 }
