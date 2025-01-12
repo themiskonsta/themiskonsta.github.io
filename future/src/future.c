@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
     
     if (!array) 
     {
-        printf("Memory allocation failed!\n");
+        printf("Failed to allocate window memory\n");
         fclose(numbers);
         return 1;
     }
