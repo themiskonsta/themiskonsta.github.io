@@ -27,6 +27,8 @@ int main(int argc, char *argv[])
         printf("Usage: ./future <filename> [--window N (default: 50)]\n");
         return 1;
     }
+    
+    FILE *numbers = fopen(argv[1], "r");
 
     if (x==0)
     {
@@ -34,8 +36,6 @@ int main(int argc, char *argv[])
         return 1;
     }
     
-    FILE *numbers = fopen(argv[1], "r");
-
     if (!numbers) 
     {
         fprintf(stderr, "Error opening file\n");
